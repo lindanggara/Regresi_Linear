@@ -1,10 +1,156 @@
-<h1>Koefisien θ:</h1>
-<p>{{ theta }}</p>
-
-<h1>Prediksi (y_pred):</h1>
-<p>{{ y_pred }}</p>
-
-<h2>Visualisasi Hasil:</h2>
-<img src="data:image/png;base64,{{ img_data }}" alt="Grafik Hasil Regresi">
-
-<a href="/">Kembali ke Upload</a>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hasil Prediksi</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .metrics {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .metrics h2 {
+            margin-top: 0;
+            color: #333;
+        }
+        .metric-item {
+            display: inline-block;
+            margin: 10px 20px;
+            padding: 10px 20px;
+            background: #e3f2fd;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .interpretation {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #ffc107;
+        }
+        .interpretation h3 {
+            margin-top: 0;
+            color: #856404;
+        }
+        .interpretation h4 {
+            color: #856404;
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
+        .interpretation ul {
+            line-height: 1.8;
+        }
+        .interpretation strong {
+            color: #856404;
+        }
+        img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .download-btn {
+            display: inline-block;
+            margin: 10px 0;
+            padding: 10px 20px;
+            background: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .download-btn:hover {
+            background: #45a049;
+        }
+        .back-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 30px;
+            background: #2196F3;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .back-btn:hover {
+            background: #1976D2;
+        }
+        details {
+            margin-top: 20px;
+        }
+        summary {
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 18px;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        summary:hover {
+            background: #f0f0f0;
+        }
+        pre {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            max-height: 400px;
+        }
+    </style>
+</head>
+<body>
+    <h1>📊 Hasil Prediksi Regresi Linear</h1>
+    
+    <div class="metrics">
+        <h2>Model Performance Metrics:</h2>
+        <div class="metric-item">R² Score: {{ r2 }}</div>
+        <div class="metric-item">RMSE: {{ rmse }}</div>
+        <div class="metric-item">MAE: {{ mae }}</div>
+        <div class="metric-item">MAPE: {{ mape }}%</div>
+    </div>
+    
+    <div class="interpretation">
+        <h3>📊 Interpretasi Hasil:</h3>
+        <ul>
+            <li><strong>R² Score ({{ r2 }})</strong>: Model menjelaskan <strong>{{ r2_percent }}%</strong> variasi data - {{ r2_label }}</li>
+            <li><strong>RMSE ({{ rmse }})</strong>: Rata-rata error sekitar <strong>±{{ rmse }} poin</strong> dari nilai sebenarnya</li>
+            <li><strong>MAE ({{ mae }})</strong>: Rata-rata absolut error <strong>{{ mae }} poin</strong></li>
+            <li><strong>MAPE ({{ mape }}%)</strong>: Error persentase <strong>{{ mape }}%</strong> - {{ mape_label }}</li>
+        </ul>
+        
+        <h4>🔍 Analisis Visual:</h4>
+        <ul>
+            <li><strong>Density Heatmap</strong>: Warna merah = banyak data berkumpul di area tersebut (model konsisten)</li>
+            <li><strong>Scatter Plot</strong>: Titik-titik mengikuti garis merah = prediksi akurat</li>
+            <li><strong>Residual Plot</strong>: Pola acak (random) = model tidak bias ✅</li>
+        </ul>
+    </div>
+    
+    <h2>Visualisasi:</h2>
+    <img src="data:image/png;base64,{{ img_data }}" alt="Regression Plot">
+    
+    <a href="data:image/png;base64,{{ img_data }}" download="regression_visualization.png" class="download-btn">
+        💾 Download Visualisasi
+    </a>
+    
+    <details>
+        <summary>📈 Lihat Nilai Prediksi ({{ y_pred|length }} data points)</summary>
+        <pre>{{ y_pred }}</pre>
+    </details>
+    
+    <details>
+        <summary>🔢 Lihat Parameter Model (Theta)</summary>
+        <pre>{{ theta }}</pre>
+    </details>
+    
+    <a href="/" class="back-btn">⬅️ Upload Dataset Lain</a>
+</body>
+</html>
